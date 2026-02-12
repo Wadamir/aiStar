@@ -1,0 +1,12 @@
+{
+    "en": {
+        "label": "English",
+        "flag": "🇬🇧",
+        "is_active": true
+    },
+    "ru": {
+        "label": "Русский",
+        "flag": "🇷🇺",
+        "is_active": true
+    }
+}

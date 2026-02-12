@@ -1,0 +1,7 @@
+{
+    "start_message": "Welcome to AI Star",
+    "hello_again_message": "Welcome back to AI Star",
+    "choose_language_message": "Please choose your language",
+    "style_selection_message": "Choose a style",
+    "processing_message": "Processing your track..."
+}

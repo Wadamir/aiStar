@@ -1,0 +1,13 @@
+.venv/
+.vscode/
+*/__pycache__/
+*/*/__pycache__/
+.env
+
+# Database files
+*.db 
+*.sqlite 
+*.sqlite3
+
+# Logs
+*.log

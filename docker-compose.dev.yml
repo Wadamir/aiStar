@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
-  bot:
+  ai_star_tg_bot:
     build: .
-    container_name: telegram-bot-dev
+    container_name: ai_star_tg_bot-dev
     env_file:
       - .env
     volumes:

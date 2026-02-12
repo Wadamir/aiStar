@@ -1,6 +1,11 @@
-"""
-Telegram handlers layer.
+from aiogram import Dispatcher # type: ignore
 
-Contains message, command and callback handlers.
-Handlers should be thin and delegate logic to services.
-"""
+from .commands import router as commands_router
+from .messages import router as messages_router
+from .callbacks import router as callbacks_router
+
+
+def register_handlers(dp: Dispatcher):
+    dp.include_router(commands_router)
+    dp.include_router(messages_router)
+    dp.include_router(callbacks_router)

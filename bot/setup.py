@@ -1,14 +1,34 @@
-"""
-Application bootstrap and composition root.
+# bot/setup.py
 
-Responsible for initializing and wiring together
-all core components such as:
-- configuration
-- database
-- repositories
-- services
-- Telegram handlers
+from aiogram import Bot, Dispatcher
+from aiogram.enums import ParseMode
+from aiogram.client.default import DefaultBotProperties
 
-This module defines the setup_bot() function,
-which returns fully configured bot and dispatcher instances.
-"""
+from bot.config.settings import settings  # pydantic-settings
+from bot.middlewares.locale import LocaleMiddleware
+from bot.handlers import register_handlers
+
+
+def setup_bot() -> tuple[Bot, Dispatcher]:
+    """
+    Composition root.
+    Creates and configures all application dependencies.
+    """
+
+    # === Bot ===
+    bot = Bot(
+        token=settings.BOT_TOKEN,
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML),
+    )
+
+    # === Dispatcher ===
+    dp = Dispatcher()
+
+    # === Middlewares ===
+    dp.message.middleware(LocaleMiddleware())
+    dp.callback_query.middleware(LocaleMiddleware())
+
+    # === Register handlers ===
+    register_handlers(dp)
+
+    return bot, dp
