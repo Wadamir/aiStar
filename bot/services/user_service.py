@@ -1,5 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from bot.db.models.user import User
 
@@ -9,7 +10,11 @@ class UserService:
         self.session = session
 
     async def get_by_telegram_id(self, telegram_id: int) -> User | None:
-        stmt = select(User).where(User.telegram_id == telegram_id)
+        stmt = (
+            select(User)
+            .where(User.telegram_id == telegram_id)
+            .options(selectinload(User.plan))
+        )
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
 

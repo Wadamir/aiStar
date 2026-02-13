@@ -7,9 +7,10 @@ from aiogram.client.default import DefaultBotProperties
 from bot.config.settings import settings  # pydantic-settings
 from bot.middlewares.locale import LocaleMiddleware
 from bot.handlers import register_handlers
+from bot.workers.queue import JobQueue
 
 
-def setup_bot() -> tuple[Bot, Dispatcher]:
+def setup_bot() -> tuple[Bot, Dispatcher, JobQueue]:
     """
     Composition root.
     Creates and configures all application dependencies.
@@ -24,6 +25,10 @@ def setup_bot() -> tuple[Bot, Dispatcher]:
     # === Dispatcher ===
     dp = Dispatcher()
 
+    # === Job Queue ===
+    job_queue = JobQueue()
+    dp.workflow_data["job_queue"] = job_queue
+
     # === Middlewares ===
     dp.message.middleware(LocaleMiddleware())
     dp.callback_query.middleware(LocaleMiddleware())
@@ -31,4 +36,6 @@ def setup_bot() -> tuple[Bot, Dispatcher]:
     # === Register handlers ===
     register_handlers(dp)
 
-    return bot, dp
+
+
+    return bot, dp, job_queue

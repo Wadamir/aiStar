@@ -5,9 +5,14 @@
 .env
 
 # Database files
+storage/db/*
 *.db 
 *.sqlite 
 *.sqlite3
+
+# Voices
+storage/voices/*
+storage/processed/*
 
 # Logs
 *.log

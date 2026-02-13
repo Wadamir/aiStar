@@ -3,5 +3,11 @@
     "hello_again_message": "Welcome back to AI Star",
     "choose_language_message": "Please choose your language",
     "style_selection_message": "Choose a style",
-    "processing_message": "Processing your track..."
+    "processing_message": "Processing your track...",
+    "please_register": "Please register first.",
+    "daily_limit_reached": "Daily limit reached.",
+    "choose_style": "Choose a style:",    
+    "song_not_found": "Song not found.",
+    "not_allowed": "Action not allowed.",
+    "processing_started": "Processing started..."    
 }

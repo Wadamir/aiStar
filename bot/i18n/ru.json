@@ -3,5 +3,11 @@
     "hello_again_message": "С возвращением в AI Star",
     "choose_language_message": "Пожалуйста, выберите язык",
     "style_selection_message": "Выберите стиль",
-    "processing_message": "Обрабатываем трек..."
+    "processing_message": "Обрабатываем трек...",
+    "please_register": "Сначала зарегистрируйтесь.",
+    "daily_limit_reached": "Достигнут дневной лимит.",
+    "choose_style": "Выберите стиль:",   
+    "song_not_found": "Песня не найдена.",
+    "not_allowed": "Действие запрещено.",
+    "processing_started": "Обработка началась..."    
 }
