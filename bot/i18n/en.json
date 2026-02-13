@@ -6,8 +6,9 @@
     "processing_message": "Processing your track...",
     "please_register": "Please register first.",
     "daily_limit_reached": "Daily limit reached.",
-    "choose_style": "Choose a style:",    
+    "choose_style": "Choose a style:",
     "song_not_found": "Song not found.",
     "not_allowed": "Action not allowed.",
-    "processing_started": "Processing started..."    
+    "processing_started": "Processing started...",
+    "ffmpeg_failed": "Audio processing failed"
 }

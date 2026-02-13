@@ -99,9 +99,12 @@ async def style_selected(
     # 🔥 Create job
     ctx = JobContext(
         user_id=user.telegram_id,
+        user_first_name=user.first_name,
+        user_username=user.username,
         song_id=song.id,
         voice_path=Path(song.original_file),
         chosen_style=style_code,
+        locale=locale,
     )
 
     # 🔥 Queue

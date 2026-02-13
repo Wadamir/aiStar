@@ -1,23 +1,23 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import InlineKeyboardMarkup
 
 STYLES = {
     "rap": "🎤 Rap",
     "pop": "🎵 Pop",
     "rock": "🎸 Rock",
+    "vocal": "🎙️ Vocal",
 }
 
 
 def get_style_keyboard(song_id: int) -> InlineKeyboardMarkup:
-    buttons = []
+    builder = InlineKeyboardBuilder()
 
-    for style_code, label in STYLES.items():
-        buttons.append(
-            InlineKeyboardButton(
-                text=label,
-                callback_data=f"style:{song_id}:{style_code}",
-            )
+    for style_code, style_name in STYLES.items():
+        builder.button(
+            text=style_name,
+            callback_data=f"style:{song_id}:{style_code}"
         )
 
-    return InlineKeyboardMarkup(
-        inline_keyboard=[[btn] for btn in buttons]
-    )
+    builder.adjust(2)  # 2 buttons per row
+
+    return builder.as_markup()

@@ -1,4 +1,6 @@
 from loguru import logger
+import re
+
 from aiogram import Bot
 from aiogram.types import FSInputFile
 
@@ -39,9 +41,24 @@ class Worker:
             finally:
                 self.queue.task_done()
 
+    def _build_filename(self, ctx):
+        base_name = None
+
+        if ctx.user_first_name:
+            base_name = ctx.user_first_name
+        elif ctx.user_username:
+            base_name = ctx.user_username
+
+        if base_name:
+            base_name = base_name.replace(" ", "_")
+            base_name = base_name.lower()
+            base_name = re.sub(r'[^a-zA-Z0-9_а-яА-Я]', '', base_name)            
+            return f"{base_name}_AIStar_{ctx.chosen_style}.mp3"
+
+        return f"AIStar_{ctx.chosen_style}.mp3"                
+
     async def _handle_job(self, ctx):
         ctx.status = "processing"
-
         await self._update_status(ctx, "processing_started")
 
         await self.pipeline.run(ctx)
@@ -50,7 +67,11 @@ class Worker:
         logger.success(f"Job completed for user_id={ctx.user_id}")
 
         if ctx.output_files:
-            audio_file = FSInputFile(ctx.output_files[0])
+            filename = self._build_filename(ctx)
+            audio_file = FSInputFile(
+                ctx.output_files[0],
+                filename=filename
+            )
             await self.bot.send_audio(
                 chat_id=ctx.user_id,
                 audio=audio_file

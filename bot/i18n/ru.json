@@ -9,5 +9,6 @@
     "choose_style": "Выберите стиль:",   
     "song_not_found": "Песня не найдена.",
     "not_allowed": "Действие запрещено.",
-    "processing_started": "Обработка началась..."    
+    "processing_started": "Обработка началась...",
+    "ffmpeg_failed": "Обработка аудио не удалась"
 }

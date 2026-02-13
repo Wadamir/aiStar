@@ -1,44 +1,30 @@
-from pathlib import Path
 from loguru import logger
-import shutil
+
+from bot.services.audio_service import AudioService
+from bot.exceptions import VoiceNotFoundError, ProcessingError
 
 
 class JobPipeline:
+    def __init__(self):
+        self.audio_service = AudioService()
+
     async def run(self, ctx):
-        # Do not catch exceptions here — let them bubble up to Worker
+        logger.info(f"Running pipeline for user_id={ctx.user_id}, style={ctx.chosen_style}")
         await self.fetch(ctx)
+        logger.info(f"Voice file found for user_id={ctx.user_id}, processing...")
         await self.process(ctx)
+        logger.info(f"Audio processing completed for user_id={ctx.user_id}, saving output...")
         await self.save(ctx)
+        logger.info(f"Pipeline completed for user_id={ctx.user_id}")
 
     async def fetch(self, ctx):
-        logger.info(f"Fetching voice file: {ctx.voice_path}")
-
-        if ctx.voice_path is None:
-            raise ValueError("voice_path is None")
-
-        if not isinstance(ctx.voice_path, Path):
-            raise TypeError("voice_path must be a pathlib.Path instance")
-
-        if not ctx.voice_path.exists():
-            raise FileNotFoundError(f"Voice file not found: {ctx.voice_path}")
+        if not ctx.voice_path or not ctx.voice_path.exists():
+            raise VoiceNotFoundError()
 
     async def process(self, ctx):
-        logger.info("Processing voice...")
-
-        output_dir = Path("storage/processed")
-        output_dir.mkdir(parents=True, exist_ok=True)
-
-        output_file = output_dir / f"{ctx.voice_path.stem}_processed.ogg"
-
-        # If copy fails, exception will propagate
-        shutil.copy(ctx.voice_path, output_file)
-
-        ctx.output_files.append(output_file)
+        await self.audio_service.process(ctx)
 
     async def save(self, ctx):
-        logger.info("Saving results...")
-
         if not ctx.output_files:
-            raise RuntimeError("No output files were generated during processing")
-
-        logger.success(f"Generated file: {ctx.output_files[0]}")
+            raise ProcessingError("no_output_generated")
+        logger.info(f"Output files saved for user_id={ctx.user_id}: {ctx.output_files}")    

@@ -8,31 +8,35 @@ ProgressCallback = Callable[[JobStage, dict], None]
 
 @dataclass
 class JobContext:
+    # === Identification ===
     user_id: int
-
-    # Song
+    user_first_name: Optional[str] = None
+    user_username: Optional[str] = None
+    locale: Optional[str] = None
     song_id: Optional[int] = None
 
-    # voice
+    # === Input ===
     voice_msg_id: Optional[int] = None
     voice_path: Optional[Path] = None
 
-    # processing
+    # === Processing params ===
     chosen_style: Optional[str] = None
     chosen_bitrate: Optional[int] = None
 
-    #result
+    # === Runtime state ===
     status: Literal["pending", "processing", "success", "failed"] = "pending"
+
+    # === Output ===
     output_files: list[Path] = field(default_factory=list)
 
-    # metrics
+    # === Metrics ===
     estimated_size_mb: Optional[float] = None
     real_size_mb: Optional[float] = None
     processing_time_sec: Optional[float] = None
 
-    #errors
+    # === Errors ===
     fallback_reason: Optional[str] = None
     error_message: Optional[str] = None
 
-    #stages
+    # === Progress ===
     on_progress: Optional[ProgressCallback] = None
