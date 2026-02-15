@@ -6,6 +6,8 @@ STYLES = {
     "pop": "🎵 Pop",
     "rock": "🎸 Rock",
     "vocal": "🎙️ Vocal",
+    "lofi": "🎧 AI Lo-Fi",
+    "ai_vocal": "🤖 AI Vocal",
 }
 
 
